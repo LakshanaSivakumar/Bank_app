@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transactions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Last 10 Transactions</h2>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+        {% for txn in transactions %}
+        <tr>
+            <td>{{ txn.type }}</td>
+            <td>{{ txn.amount }}</td>
+            <td>{{ txn.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

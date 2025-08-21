@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Success</title>
+</head>
+<body>
+<div class="container">
+    <h2>Customer Registered Successfully!</h2>
+    <p><strong>Name:</strong> {{ full_name }}</p>
+    <p><strong>Account Number:</strong> {{ account_no }}</p>
+    <p><strong>Temporary Password:</strong> <code>{{ temp_password }}</code></p>
+    <p>Please provide these credentials securely to the customer.</p>
+    <a href="{{ url_for('admin_dashboard') }}"><button>Back to Dashboard</button></a>
+</div>
+</body>
+</html>

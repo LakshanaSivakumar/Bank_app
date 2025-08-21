@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Customer</title>
+</head>
+<body>
+<div class="container">
+    <h2>Register New Customer</h2>
+    <form method="POST">
+        <input name="full_name" placeholder="Full Name" required><br>
+        <input name="address" placeholder="Address" required><br>
+        <input name="mobile_no" placeholder="Mobile Number" required><br>
+        <input name="email" placeholder="Email" required><br>
+        <select name="account_type" required>
+            <option value="Saving">Saving</option>
+            <option value="Current">Current</option>
+        </select><br>
+        <input name="initial_balance" type="number" placeholder="Initial Balance" required><br>
+        <input name="dob" type="date" required><br>
+        <input name="id_proof" placeholder="ID Proof" required><br>
+        <button type="submit">Register</button>
+    </form>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+</div>
+</body>
+</html>
