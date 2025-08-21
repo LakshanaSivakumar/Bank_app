@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash, send_file
 from db import get_connection
 from auth import hash_password, verify_password
+from pdf_generate_customer import generate_customer_pdf
 from pdf_generator import generate_pdf
 
 app = Flask(__name__)
@@ -83,12 +84,15 @@ def register_customer():
         cursor.execute("""
             INSERT INTO customer (
                 full_name, address, mobile_no, email, account_type,
-                balance, dob, id_proof, account_no, password_hash, is_active
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 1)
+                dob, id_proof, account_no, password_hash, is_active, balance, temp_password
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, 1, %s, %s)
         """, (
             full_name, address, mobile_no, email, account_type,
-            initial_balance, dob, id_proof, account_no, hashed_password
+            dob, id_proof, account_no, hashed_password,
+            initial_balance, temp_password
         ))
+
+
         conn.commit()
         cursor.execute("""
             INSERT INTO balance (account_no, balance)
@@ -102,6 +106,11 @@ def register_customer():
                                temp_password=temp_password)
 
     return render_template("register_customer.html")
+
+@app.route("/download_customer_pdf/<account_no>")
+def download_customer_pdf(account_no):
+    filename = generate_customer_pdf(account_no)
+    return send_file(filename, as_attachment=True)
 
 @app.route("/admin/view_customers")
 def view_customers():
@@ -156,6 +165,7 @@ def customer_login():
 
 @app.route("/customer/setup_password", methods=["GET", "POST"])
 def setup_password():
+    acc_no = request.args.get("account_no", "")
     if request.method == "POST":
         acc_no = request.form["account_no"]
         old_pw = request.form["old_password"]
@@ -165,14 +175,19 @@ def setup_password():
         cursor = conn.cursor()
         cursor.execute("SELECT password_hash FROM customer WHERE account_no=%s", (acc_no,))
         row = cursor.fetchone()
+
         if row and verify_password(row[0], old_pw):
             cursor.execute("UPDATE customer SET password_hash=%s WHERE account_no=%s",
                            (hash_password(new_pw), acc_no))
             conn.commit()
-            flash("Password updated. You can now log in.")
-            return redirect(url_for("customer_login"))
-        flash("Invalid temporary password")
-    return render_template("setup_password.html")
+            flash("✅ Password updated successfully. You can now log in.")
+        else:
+            flash("❌ Invalid temporary password")
+
+    return render_template("setup_password.html", account_no=acc_no)
+
+
+
 
 @app.route("/customer/dashboard")
 def customer_dashboard():

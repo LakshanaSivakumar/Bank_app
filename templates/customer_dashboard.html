@@ -38,6 +38,13 @@
     <a href="/customer/transactions/{{ customer.account_no }}"><button>View Transactions</button></a>
     <a href="/customer/close/{{ customer.account_no }}"><button>Close Account</button></a>
     <a href="/customer/download_pdf/{{ customer.account_no }}"><button>Print Statement (PDF)</button></a>
+
+    <form method="GET" action="/customer/setup_password">
+        <input type="hidden" name="account_no" value="{{ customer.account_no }}">
+        <button type="submit">Change Password</button>
+    </form>
+    <a href="{{ url_for('customer_login') }}"><button type="button">Logout</button></a>
+
 </div>
 </body>
 </html>

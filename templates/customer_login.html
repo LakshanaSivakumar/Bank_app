@@ -6,6 +6,15 @@
 </head>
 <body>
 <div class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
     <h2>Customer Login</h2>
     <form method="POST" action="/customer/login">
         <input name="account_no" placeholder="Account Number" required>
