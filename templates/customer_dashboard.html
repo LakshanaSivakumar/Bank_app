@@ -7,7 +7,7 @@
 <body>
 <div class="container">
 
-    <!-- 🔔 Flash message block START -->
+    <!--Flash message block-->
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <div class="flash-messages">
@@ -17,7 +17,7 @@
         </div>
       {% endif %}
     {% endwith %}
-    <!-- 🔔 Flash message block END -->
+    <!--Flash message block-->
 
     <h2>Welcome, {{ customer.full_name }}</h2>
     <p><strong>Account No:</strong> {{ customer.account_no }}</p>
