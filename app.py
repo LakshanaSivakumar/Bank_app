@@ -126,19 +126,7 @@ def view_customers():
     return render_template("view_customers.html", customers=customers)
 
 
-"""@app.route('/customer/details/<int:account_no>')
-def customer_details(account_no):
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM customer WHERE account_no = %s", (account_no,))
-    customer = cursor.fetchone()
-    conn.close()
 
-    if not customer:
-        flash("Customer not found.")
-        return redirect(url_for('index'))
-
-    return render_template('customer_details.html', customer=customer)"""
 
 @app.route("/admin/logout")
 def admin_logout():
